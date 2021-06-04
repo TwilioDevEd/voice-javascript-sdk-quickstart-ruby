@@ -8,3 +8,4 @@
 /Gemfile.lock
 /vendor/bundle
 .tool-versions
+node_modules/
