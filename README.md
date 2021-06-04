@@ -20,6 +20,8 @@ Implementations in other languages:
 ### Requirements
 
 - [Ruby](https://www.ruby-lang.org/) **2.6.x** version
+- [Node](https://nodejs.dev/) version **14.0** or above
+- [ngrok](https://ngrok.com/download)
 
 ### Twilio Account Settings
 

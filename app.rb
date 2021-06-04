@@ -9,9 +9,19 @@ require 'faker'
 # Load environment configuration
 Dotenv.load
 
+twilio_number = ENV['TWILIO_CALLER_ID']
+
+# Create a random username for the client
+identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
+
+
 # Render home page
 get '/' do
   File.read(File.join('public', 'index.html'))
+end
+
+get '/twilio.min.js' do
+  send_file File.join(settings.public_folder, 'node_modules/@twilio/voice-sdk/dist/twilio.min.js')
 end
 
 # Generate a token for use in our Video application
@@ -23,9 +33,6 @@ get '/token' do
 
   # Required for Voice
   outgoing_application_sid = ENV['TWILIO_TWIML_APP_SID']
-
-  # Create a random username for the client
-  identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
 
   # Create Voice grant for our token
   grant = Twilio::JWT::AccessToken::VoiceGrant.new
@@ -49,14 +56,18 @@ end
 
 post '/voice' do
   twiml = Twilio::TwiML::VoiceResponse.new do |r|
-    if params['To'] && params['To'] != ''
-      r.dial(caller_id: ENV['TWILIO_CALLER_ID']) do |d|
+    if params['To'] && params['To'] == twilio_number
+        r.dial() do |d|
+          d.client(identity: identity)
+        end
+    elsif params['phone'] && params['phone'] != ''
+      r.dial(caller_id: twilio_number) do |d|
         # wrap the phone number or client name in the appropriate TwiML verb
         # by checking if the number given has only digits and format symbols
-        if params['To'] =~ /^[\d\+\-\(\) ]+$/
-          d.number(params['To'])
+        if params['phone'] =~ /^[\d\+\-\(\) ]+$/
+          d.number(params['phone'])
         else
-          d.client identity: params['To']
+          d.client identity: params['phone']
         end
       end
     else
