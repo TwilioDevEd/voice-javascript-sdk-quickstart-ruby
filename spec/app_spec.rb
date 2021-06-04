@@ -6,8 +6,7 @@ describe 'app' do
   describe 'get /' do
     it 'renders index.html page' do
       twilio_sdk = '<script type="text/javascript"' \
-                   ' src="//sdk.twilio.com/js/client/releases/1.10.1/' \
-                   'twilio.js"></script>'
+                   ' src="twilio.min.js"></script>'
       jquery_script = '<script src="//ajax.googleapis.' \
                       'com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>'
 
@@ -34,14 +33,14 @@ describe 'app' do
   describe 'post /voice' do
     context 'when a phone number is sent' do
       it 'responds with Number tag' do
-        post '/voice', To: '+1234567890'
+        post '/voice', phone: '+1234567890'
         expect(last_response.body).to include('<Number>+1234567890</Number>')
       end
     end
 
     context 'when a string is sent ' do
       it 'responds with Number tag' do
-        post '/voice', To: 'client'
+        post '/voice', phone: 'client'
         expect(last_response.body).to include('<Client>client</Client>')
       end
     end
