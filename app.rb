@@ -9,7 +9,9 @@ require 'faker'
 # Load environment configuration
 Dotenv.load
 
-twilio_number = ENV['TWILIO_CALLER_ID']
+def twilio_number
+  ENV['TWILIO_CALLER_ID']
+end
 
 # Create a random username for the client
 identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')

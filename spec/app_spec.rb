@@ -38,6 +38,14 @@ describe 'app' do
       end
     end
 
+    context 'when an incoming call comes in' do
+      it 'responds with Client tag' do
+        ENV.stub(:[]).with('TWILIO_CALLER_ID').and_return('+1234567890')
+        post '/voice', To: '+1234567890'
+        expect(last_response.body).to include('<Client>')
+      end
+    end
+
     context 'when a string is sent ' do
       it 'responds with Number tag' do
         post '/voice', phone: 'client'
