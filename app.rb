@@ -16,7 +16,6 @@ end
 # Create a random username for the client
 identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
 
-
 # Render home page
 get '/' do
   File.read(File.join('public', 'index.html'))
@@ -53,27 +52,27 @@ get '/token' do
   )
 
   # Generate the token and send to client
-  json :identity => identity, :token => token.to_jwt
+  json identity: identity, token: token.to_jwt
 end
 
 post '/voice' do
   twiml = Twilio::TwiML::VoiceResponse.new do |r|
     if params['To'] && params['To'] == twilio_number
-        r.dial() do |d|
-          d.client(identity: identity)
-        end
+      r.dial do |d|
+        d.client(identity: identity)
+      end
     elsif params['phone'] && params['phone'] != ''
       r.dial(caller_id: twilio_number) do |d|
         # wrap the phone number or client name in the appropriate TwiML verb
         # by checking if the number given has only digits and format symbols
-        if params['phone'] =~ /^[\d\+\-\(\) ]+$/
+        if params['phone'] =~ /^[\d+\-() ]+$/
           d.number(params['phone'])
         else
           d.client identity: params['phone']
         end
       end
     else
-      r.say(message: "Thanks for calling!")
+      r.say(message: 'Thanks for calling!')
     end
   end
 
