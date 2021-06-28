@@ -13,7 +13,7 @@ Implementations in other languages:
 
 | .NET | Java | Python | PHP | Node |
 | :--- | :--- | :----- | :-- | :--- |
-| [Done](https://github.com/TwilioDevEd/client-quickstart-csharp) | [Done](https://github.com/TwilioDevEd/client-quickstart-java)  | [Done](https://github.com/TwilioDevEd/client-quickstart-python)  | [Done](https://github.com/TwilioDevEd/client-quickstart-php) | [Done](https://github.com/TwilioDevEd/client-quickstart-node)  |
+| In progress | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-java)  | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-python)  | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-php) | [Done](https://github.com/TwilioDevEd/voice-javascript-sdk-quickstart-node)  |
 
 ## Set up
 
