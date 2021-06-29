@@ -14,7 +14,7 @@ def twilio_number
 end
 
 # Create a random username for the client
-identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
+IDENTITY = Array.new(1)
 
 # Render home page
 get '/' do
@@ -38,24 +38,28 @@ get '/token' do
   # Optional: add to allow incoming calls
   grant.incoming_allow = true
 
+  identity = Faker::Internet.user_name.gsub(/[^0-9a-z_]/i, '')
+  IDENTITY.clear
+  IDENTITY.append(identity)
+
   # Create an Access Token
   token = Twilio::JWT::AccessToken.new(
     account_sid,
     api_key,
     api_secret,
     [grant],
-    identity: identity
+    identity: IDENTITY[0]
   )
 
   # Generate the token and send to client
-  json identity: identity, token: token.to_jwt
+  json identity: IDENTITY[0], token: token.to_jwt
 end
 
 post '/voice' do
   twiml = Twilio::TwiML::VoiceResponse.new do |r|
     if params['To'] && params['To'] == twilio_number
       r.dial do |d|
-        d.client(identity: identity)
+        d.client(identity: IDENTITY[0])
       end
     elsif params['phone'] && params['phone'] != ''
       r.dial(caller_id: twilio_number) do |d|
