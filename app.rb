@@ -21,10 +21,6 @@ get '/' do
   File.read(File.join('public', 'index.html'))
 end
 
-get '/twilio.min.js' do
-  send_file File.join(settings.public_folder, 'node_modules/@twilio/voice-sdk/dist/twilio.min.js')
-end
-
 # Generate a token for use in our Video application
 get '/token' do
   # Required for any Twilio Access Token
