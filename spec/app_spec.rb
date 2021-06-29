@@ -5,8 +5,6 @@ require File.expand_path('spec_helper.rb', __dir__)
 describe 'app' do
   describe 'get /' do
     it 'renders index.html page' do
-      twilio_sdk = '<script type="text/javascript"' \
-                   ' src="twilio.min.js"></script>'
       jquery_script = '<script src="//ajax.googleapis.' \
                       'com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>'
 
@@ -15,11 +13,7 @@ describe 'app' do
       expect(last_response.body).to include('id="ringtone-devices"')
       expect(last_response.body).to include('id="speaker-devices"')
       expect(last_response.body).to include('id="get-devices"')
-      expect(last_response.body).to include('<button id="button-call">Call</button>')
-      expect(last_response.body).to include('<button id="button-hangup">Hangup</button>')
-      expect(last_response.body).to include('<div id="log"></div>')
       expect(last_response.body).to include(jquery_script)
-      expect(last_response.body).to include(twilio_sdk)
     end
   end
 
