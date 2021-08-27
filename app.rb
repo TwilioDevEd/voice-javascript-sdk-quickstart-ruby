@@ -61,14 +61,14 @@ post '/voice' do
       r.dial do |d|
         d.client(identity: IDENTITY[0])
       end
-    elsif params['phone'] && params['phone'] != ''
+    elsif params['To'] && params['To'] != ''
       r.dial(caller_id: twilio_number) do |d|
         # wrap the phone number or client name in the appropriate TwiML verb
         # by checking if the number given has only digits and format symbols
-        if params['phone'] =~ /^[\d+\-() ]+$/
-          d.number(params['phone'])
+        if params['To'] =~ /^[\d+\-() ]+$/
+          d.number(params['To'])
         else
-          d.client identity: params['phone']
+          d.client identity: params['To']
         end
       end
     else
@@ -76,6 +76,7 @@ post '/voice' do
     end
   end
 
+  puts twiml
   content_type 'text/xml'
   twiml.to_s
 end
